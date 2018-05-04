@@ -1,24 +1,18 @@
-function alpha = linesearch(x,deltax,f,i)
-
-global func
+function alpha = linesearch(x,direct,fx,grad,t,y)
 
 %Line Search
-    for j=0:5
+    for j=0:4
         alpha      = (1/2)^j;
-        x_         = x;                     % store the current point
-        x          = x + alpha*deltax;      % find the updated value of x 
-        [f_update] = eval(func);            % evaluate the value of f in x+alpha*deltax
-                        
-                                            % Merit function used: M(x) = |f(x)|
+        x          = x + alpha*direct;      % find the updated value of x 
+        [~,~,~,fx_next]   = myfun(x,t,y);          % evaluate the value of f in x+alpha*deltax
+                       
                                            
-        value1     = abs(f_update);
-        value2     = ((1 - alpha*2*(10^-4) )^(0.5) * abs(f));
+        value1     = fx_next;
+        value2     = fx+(1e-4)*alpha*grad'*direct;
 
-        if value1 <=  value2                % to find the accurate value of alpha
+        if value1 <  value2                % to find the accurate value of alpha
             break;
         end 
-        
-        x          = x_;                    % to update the stored value of x at each iteration
     end                                     % end of Line Search
     
 end
