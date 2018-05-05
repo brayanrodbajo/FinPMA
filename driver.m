@@ -1,5 +1,4 @@
-function driver
-    line=1;
+function driver(alg, line)
   % Cargar datos de archivo adjunto
   load('data.txt');
   t=data(:,1)';
@@ -13,21 +12,19 @@ function driver
   iter = 0;
   x_ini = x0;
   %inicio iteraciones
-  while fx>eps && iter<10000
-
-      % Calcular el gradiente, hessiano y residuo para cada iteración
-      [fyt,grad, hess, fx] = myfun(x_ini, t , y);
-      
-      % Steepest descent
-      direct = -grad;
-      % Calcular sgte iterando
-      if line == 1
-          alfa = linesearch(x_ini,direct,fx,grad,t,y);
-          x_next = x_ini+alfa*direct;
-      else
-         x_next = x_ini+direct;
+  while fx>eps && iter<5000
+      % Seleccionar algoritmo     
+      switch alg 
+          % Steepest descent
+          case 1
+            [x_next, fx]=Steepestdescent(x_ini,t,y,line);
+          % Gauss-Newton   
+          case 2
+            [x_next, fx]=Newton(x_ini,t,y,line,alg);
+          % Levenberg-Marquardt
+          case 3
+            [x_next, fx]=Newton(x_ini,t,y,line,alg);
       end
-      
       % diferencia entre iterandos
       dif_iter = norm(x_next-x_ini)/norm(x_ini);
       % numero de iteraciones
@@ -38,11 +35,11 @@ function driver
       
   end
   
-    disp('Se termina el ciclo. La optimización es: ');
+    disp('Se termina el ciclo. La optimizaciï¿½n es: ');
     disp(x_ini);
     disp('Numero de iteraciones');
     disp(iter);
-    disp('El residuo mínimo obtenido es: ');
+    disp('El residuo mï¿½nimo obtenido es: ');
     disp(fx);
     disp('Diferencia entre iteraciones (criterio parada)');
     disp(dif_iter);

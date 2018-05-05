@@ -5,6 +5,6 @@ function [fyt, grad, hess, fx] = myfun(x,t,y)
   fyt = x(3)*exp(x(1)*t)+x(4)*exp(x(2)*t);
   r = y - fyt;
   grad = r*jacobian;
-  hess = jacobian*jacobian.'; %se aproxima al primer tErmino de la ecuaciOn
+  hess = jacobian'*jacobian; %se aproxima al primer tErmino de la ecuaciOn
   fx = 1/2*norm(r)^2;
 end
