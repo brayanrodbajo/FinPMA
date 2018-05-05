@@ -1,10 +1,11 @@
-function [x_next, fx] = Newton(x_ini,t,y,line,alg)
+function [x_next, fx, alfa, u] = Newton(x_ini,t,y,line,alg)
     
     [~, grad, hess, fx] = myfun(x_ini,t,y);
     % Limite para SVD
     a=1e-5;
     % Gauss-Newton
     if alg==2
+        u=0;
         % Resolver H*pk=-grad (H*x=b) utilizando descomposicion SVD
         H=hess;
         b=-grad';
@@ -21,14 +22,12 @@ function [x_next, fx] = Newton(x_ini,t,y,line,alg)
             end
         end
         direct=direct';
-        
+        alfa = 1;
         % Calcular sgte iterando
         if line == 1
             alfa = linesearch(x_ini,direct,fx,grad,t,y);
-            x_next = x_ini+alfa*direct;
-        else
-            x_next = x_ini+direct;
         end
+        x_next = x_ini+alfa*direct;
     % Levenberg-Marquardt
     else
         % Hallar mu para LM
@@ -52,12 +51,11 @@ function [x_next, fx] = Newton(x_ini,t,y,line,alg)
         end
         direct=direct';
         % Calcular sgte iterando
+        alfa = 1;
         if line == 1
             alfa = linesearch(x_ini,direct,fx,grad,t,y);
-            x_next = x_ini+alfa*direct;
-        else
-            x_next = x_ini+direct;
         end
+        x_next = x_ini+alfa*direct;
         
     end
 
