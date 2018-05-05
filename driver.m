@@ -14,26 +14,29 @@ function driver(alg, line)
   matprint = [];
   alfa = 1;
   u = 0;
+  norm_grad= 1;
   %inicio iteraciones
-  while fx>eps && iter<5000 && dif_iter > eps
+  while fx>eps  && dif_iter > eps && norm_grad > eps
       % Seleccionar algoritmo     
+      grad = 0;
       switch alg 
           % Steepest descent
           case 1
-            [x_next, fx, alfa]=Steepestdescent(x_ini,t,y,line);
-            u= 0;
+            [x_next, fx, grad, alfa]=Steepestdescent(x_ini,t,y,line);
           % Gauss-Newton   
           case 2
-            [x_next, fx, alfa, u]=Newton(x_ini,t,y,line,alg);
+            [x_next, fx, grad, alfa, u]=Newton(x_ini,t,y,line,alg);
           % Levenberg-Marquardt
           case 3
-            [x_next, fx, alfa, u]=Newton(x_ini,t,y,line,alg);
+            [x_next, fx, grad, alfa, u]=Newton(x_ini,t,y,line,alg);
       end
+      norm_grad=  norm(grad);
       % diferencia entre iterandos
       dif_iter = norm(x_next-x_ini)/norm(x_ini);
       % numero de iteraciones
       iter = iter + 1;
-      matprint =  [matprint; [iter, fx, alfa, u]]
+      %storing table of results
+      matprint =  [matprint; [iter, norm_grad, fx, alfa, u]];
       
       % Actualizar iterando inicial
       x_ini = x_next;
@@ -48,5 +51,6 @@ function driver(alg, line)
     disp(fx);
     disp('Diferencia entre iteraciones (criterio parada)');
     disp(dif_iter);
-
+    disp('Norma de gradiente (criterio parada)');
+    disp(norm_grad);
 end

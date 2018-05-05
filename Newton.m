@@ -1,4 +1,4 @@
-function [x_next, fx, alfa, u] = Newton(x_ini,t,y,line,alg)
+function [x_next, fx, grad, alfa, u] = Newton(x_ini,t,y,line,alg)
     
     [~, grad, hess, fx] = myfun(x_ini,t,y);
     % Limite para SVD

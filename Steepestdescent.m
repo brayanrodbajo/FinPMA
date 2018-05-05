@@ -1,4 +1,4 @@
-function [x_next, fx, alfa] = Steepestdescent(x_ini,t,y,line)
+function [x_next, fx, grad, alfa] = Steepestdescent(x_ini,t,y,line)
     
     % Calcular el gradiente y residuo para cada iteraci�n
     [~,grad,~, fx] = myfun(x_ini, t , y);
