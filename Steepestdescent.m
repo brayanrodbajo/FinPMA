@@ -2,7 +2,7 @@ function [x_next, fx] = Steepestdescent(x_ini,t,y,line)
     
     % Calcular el gradiente y residuo para cada iteraci�n
     [~,grad,~, fx] = myfun(x_ini, t , y);
-    % Calcular direcci�n de m�ximo descenso
+    % Calcular direccion de maximo descenso
     direct = -grad;
              
     % Calcular sgte iterando

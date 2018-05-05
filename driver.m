@@ -12,7 +12,7 @@ function driver(alg, line)
   iter = 0;
   x_ini = x0;
   %inicio iteraciones
-  while fx>eps && iter<5000
+  while fx>eps && iter<5000 && dif_iter > eps
       % Seleccionar algoritmo     
       switch alg 
           % Steepest descent
@@ -26,7 +26,7 @@ function driver(alg, line)
             [x_next, fx]=Newton(x_ini,t,y,line,alg);
       end
       % diferencia entre iterandos
-      dif_iter = norm(x_next-x_ini)/norm(x_ini);
+      dif_iter = norm(x_next-x_ini)/norm(x_ini)
       % numero de iteraciones
       iter = iter + 1;
       
@@ -35,11 +35,11 @@ function driver(alg, line)
       
   end
   
-    disp('Se termina el ciclo. La optimizaci�n es: ');
+    disp('Se termina el ciclo. La optimizacion es: ');
     disp(x_ini);
     disp('Numero de iteraciones');
     disp(iter);
-    disp('El residuo m�nimo obtenido es: ');
+    disp('El residuo minimo obtenido es: ');
     disp(fx);
     disp('Diferencia entre iteraciones (criterio parada)');
     disp(dif_iter);

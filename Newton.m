@@ -1,11 +1,11 @@
 function [x_next, fx] = Newton(x_ini,t,y,line,alg)
     
     [~, grad, hess, fx] = myfun(x_ini,t,y);
-    % L�mite para SVD
+    % Limite para SVD
     a=1e-5;
     % Gauss-Newton
     if alg==2
-        % Resolver H*pk=-grad (H*x=b) utilizando descomposici�n SVD
+        % Resolver H*pk=-grad (H*x=b) utilizando descomposicion SVD
         H=hess;
         b=-grad';
         
@@ -36,7 +36,7 @@ function [x_next, fx] = Newton(x_ini,t,y,line,alg)
         % Hallar H para LM
         [~,n]=size(hess);
         H=hess+u*eye(n);
-        % Resolver H*pk=-grad (H*x=b) utilizando descomposici�n SVD
+        % Resolver H*pk=-grad (H*x=b) utilizando descomposicion SVD
         b=-grad';
         
         [U,S,V]=svd(hess);
